@@ -1,12 +1,13 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 #include "world.h"
+#define MAX_DOUBLE 1.79769e+200
 
 class world;
 
 class sensor{
     VertexArray line;
-    double distance = -1;
+    double distance = MAX_DOUBLE;
     vector2d A;
     vector2d E;
     double rotation = 3.1415926535897932384626433832795;

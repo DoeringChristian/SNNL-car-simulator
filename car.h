@@ -10,7 +10,7 @@ class car{
     vector2d pos;
     double rotation = 0;
     double rotspeed = 0;
-    double sensorangel = 0.1;
+    double sensorangel = 0.15;
     double speed;
     world *w;
     vector2d size;

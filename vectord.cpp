@@ -31,7 +31,7 @@ Vectord Vectord::operator *(const Matrixd &m) const{
     for(uint i = 0;i < m.getHeight();i++){
         double d = 0;
         for(uint j = 0;j < m.getWidth();j++)
-            d += m.matrix[j][i]*this->vect[j];
+            d += m[j][i]*this->vect[j];
         v[i] = d;
     }
     return v;

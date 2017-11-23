@@ -6,29 +6,29 @@
 using namespace std;
 using namespace sf;
 
-RenderWindow window(VideoMode(800,600),"SFML");
+RenderWindow window(VideoMode(1000,600),"SFML");
 
 int main(){
     bool isVisible = false;
     uint fTC = 0;
-    uint a[3] = {2,3,2};
+    uint a[4] = {2,3,3,2};
     world w;
     car c(w,vector2d(50,50));
     
     poligon p1(2);
     p1[0] = vector2d(0,0);
-    p1[1] = vector2d(800,0);
+    p1[1] = vector2d(1000,0);
     poligon p2(2);
     p2[0] = vector2d(0,0);
     p2[1] = vector2d(0,100);
     poligon p3(2);
     p3[0] = vector2d(0,100);
-    p3[1] = vector2d(800,100);
+    p3[1] = vector2d(1000,100);
     w.add(p1);
     w.add(p2);
     w.add(p3);
     
-    Network n(a,3);
+    Network n(a,4);
     Trainer tr(n,0.1,5);
     Network n2 = n;
     n.randomize(1);
@@ -46,12 +46,12 @@ int main(){
         c.setRotspeed(n2.getOutput()[0]-n2.getOutput()[1]);
         c.setSpeed((n2.getOutput()[0]+n2.getOutput()[1])/2);
         
-        cout <<  n2.output[0] << "|" << n2.getOutput()[1] << "|" << tr.currentNet << endl;
+        cout <<  n2.getOutput()[0] << "|" << n2.getOutput()[1] << "|" << tr.currentNet << "|" << fTC << endl;
         
-        if(c.getPosition().x < 0 || c.getPosition().x > 800 || c.getPosition().y < 0 || c.getPosition().y > 100 || fTC > 10000){
+        if(c.getPosition().x < 0 || c.getPosition().x > 1000 || c.getPosition().y < 0 || c.getPosition().y > 100 || fTC > 10000){
             n2 = tr.update(-c.getPosition().x,0.01);
             c.setPosition(vector2d(50,50));
-            c.setRotation(-1.5);
+            c.setRotation(1.5);
             fTC = 0;
         }
         fTC ++;
