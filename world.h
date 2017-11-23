@@ -7,6 +7,7 @@
 class world{
     pnode *start = 0;
     pnode *end = start;
+    bool isVisible = false;
 public:
     world();
     ~world();
@@ -16,7 +17,7 @@ public:
     uint size() const;
     poligon &operator [](uint index) const;
     
-    void update(RenderWindow &rw,float frameTime);
+    void update(RenderWindow &rw,bool isVisible);
 };
 
 #endif // WORLD_H

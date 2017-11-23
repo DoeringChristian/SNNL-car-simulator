@@ -52,11 +52,12 @@ void world::del(poligon &del){
     }
 }
 
-void world::update(RenderWindow &rw, float frameTime){
+void world::update(RenderWindow &rw, bool isVisible){
+    this->isVisible = isVisible;
     pnode *n = start;
     if(start != 0){
         while(n != 0){
-            n->p->draw(rw);
+            n->p->draw(rw,isVisible);
             n = n->next;
         }
     }

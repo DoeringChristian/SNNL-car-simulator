@@ -9,7 +9,8 @@ using namespace sf;
 RenderWindow window(VideoMode(800,600),"SFML");
 
 int main(){
-    float fTC = 0;
+    bool isVisible = false;
+    uint fTC = 0;
     uint a[3] = {2,3,2};
     world w;
     car c(w,vector2d(50,50));
@@ -30,8 +31,7 @@ int main(){
     Network n(a,3);
     Trainer tr(n,0.1,5);
     Network n2 = n;
-    Clock frameClock;
-    float frameTime;
+    n.randomize(1);
     while(window.isOpen()){
         Event event;
         while(window.pollEvent(event)){
@@ -44,27 +44,31 @@ int main(){
         n2.setInput(1,c.right.getDistance());
         n2.update();
         c.setRotspeed(n2.getOutput()[0]-n2.getOutput()[1]);
-        c.setSpeed((n2.getOutput()[1]+n2.getOutput()[1])/2);
+        c.setSpeed((n2.getOutput()[0]+n2.getOutput()[1])/2);
         
-        if(c.getPosition().x < 0 || c.getPosition().x > 800 || c.getPosition().y < 0 || c.getPosition().y > 100 || fTC > 2000){
-            n2 = tr.update(100/c.getPosition().x,0.01);
+        cout <<  n2.output[0] << "|" << n2.getOutput()[1] << "|" << tr.currentNet << endl;
+        
+        if(c.getPosition().x < 0 || c.getPosition().x > 800 || c.getPosition().y < 0 || c.getPosition().y > 100 || fTC > 10000){
+            n2 = tr.update(-c.getPosition().x,0.01);
             c.setPosition(vector2d(50,50));
-            c.setRotation(1.5);
+            c.setRotation(-1.5);
             fTC = 0;
-            cout << endl << tr.currentNet << "|" << tr.current().getFitness() << endl;
         }
-        fTC += frameTime;
+        fTC ++;
+        
         
         if(Keyboard::isKeyPressed(Keyboard::S)){
             tr[0].SavetoFile("backup01.snn");
             while(Keyboard::isKeyPressed(Keyboard::S)){}
         }
+        if(Keyboard::isKeyPressed(Keyboard::V)){
+            isVisible = !isVisible;
+            while(Keyboard::isKeyPressed(Keyboard::V)){}
+        }
         
-        frameTime = frameClock.getElapsedTime().asMilliseconds();
-        frameClock.restart();
         window.clear(Color::Black);
-        c.upate(window,frameTime);
-        w.update(window,frameTime);
+        c.upate(window,isVisible);
+        w.update(window,isVisible);
         window.display();
     }
     tr[0].SavetoFile("test.snn");

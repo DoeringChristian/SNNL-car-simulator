@@ -5,6 +5,7 @@
 class world;
 
 class sensor{
+    VertexArray line;
     double distance = -1;
     vector2d A;
     vector2d E;
@@ -15,7 +16,7 @@ public:
     void setPosition(const vector2d &pos);
     void setRotation(double rotation);
     double getDistance();
-    void update(RenderWindow &rw, world &w);
+    void update(RenderWindow &rw, world &w, bool isVisible);
 };
 
 #endif // SENSOR_H

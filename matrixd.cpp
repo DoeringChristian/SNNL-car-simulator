@@ -48,7 +48,7 @@ void Matrixd::operator =(const Matrixd &m){
         matrix[i] = new double[height];
     for(uint i = 0;i < width;i++)
         for(uint j = 0;j < height;j++)
-            matrix[i][j] = m.matrix[i][j];
+            matrix[i][j] = m[i][j];
 }
 
 unsigned int Matrixd::getHeight() const{

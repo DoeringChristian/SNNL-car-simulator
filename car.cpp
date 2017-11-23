@@ -3,34 +3,37 @@
 car::car(){
     this->size = vector2d(10,20);
     this->pos = vector2d(0,0);
+    c = ConvexShape(3);
 }
 car::car(world &w,vector2d pos, double rotation){
     this->pos = pos;
     this->rotation = rotation;
     this->w = &w;
+    c = ConvexShape(3);
 }
 
-void car::upate(RenderWindow &rw, float frameTime){
-    this->rotation += rotspeed*frameTime*speed;
+void car::upate(RenderWindow &rw, bool isVisible){
+    this->rotation += rotspeed*speed;
     
-    this->pos.x += sin(rotation)*speed*frameTime;
-    this->pos.y += cos(rotation)*speed*frameTime;
+    this->pos.x += sin(rotation)*speed;
+    this->pos.y += cos(rotation)*speed;
     
     left.setPosition(pos);
     right.setPosition(pos);
     this->left.setRotation(rotation-sensorangel);
     this->right.setRotation(rotation+sensorangel);
-    left.update(rw,*w);
-    right.update(rw,*w);
+    left.update(rw,*w,isVisible);
+    right.update(rw,*w,isVisible);
     
-    ConvexShape c(3);
-    c.setFillColor(Color::Red);
-    c.setPoint(0,Vector2f(0,this->size.y/2));
-    c.setPoint(1,Vector2f(-this->size.x/2,-this->size.y/2));
-    c.setPoint(2,Vector2f(+this->size.x/2,-this->size.y/2));
-    c.setPosition(pos.x,pos.y);
-    c.rotate(rotation);
-    rw.draw(c);
+    if(isVisible){
+        c.setFillColor(Color::Red);
+        c.setPoint(0,Vector2f(0,this->size.y/2));
+        c.setPoint(1,Vector2f(-this->size.x/2,-this->size.y/2));
+        c.setPoint(2,Vector2f(+this->size.x/2,-this->size.y/2));
+        c.setPosition(pos.x,pos.y);
+        c.rotate(rotation);
+        rw.draw(c);
+    }
 }
 
 void car::setRotspeed(double rotspeed){

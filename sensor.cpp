@@ -2,6 +2,7 @@
 #include <iostream>
 
 sensor::sensor(){
+    line = VertexArray(Lines,2);
 }
 sensor::sensor(vector2d pos){
     this->A = pos;
@@ -11,7 +12,7 @@ double sensor::getDistance(){
     return distance;
 }
 
-void sensor::update(RenderWindow &rw,world &w){
+void sensor::update(RenderWindow &rw, world &w, bool isVisible){
     distance = -1;
     vector2d B(A.x+sin(rotation),A.y+cos(rotation));
     vector2d cross;
@@ -51,12 +52,13 @@ void sensor::update(RenderWindow &rw,world &w){
         }
     if(distance == -1)
         E = A+(B-A)*sqrt(pow(rw.getSize().x,2)+pow(rw.getSize().y,2));
-    VertexArray line(Lines,2);
-    line[0].color = Color::Green;
-    line[0].position = Vector2f(E.x,E.y);
-    line[1].color = Color::Green;
-    line[1].position = Vector2f(A.x,A.y);
-    rw.draw(line);
+    if(isVisible){
+        line[0].color = Color::Green;
+        line[0].position = Vector2f(E.x,E.y);
+        line[1].color = Color::Green;
+        line[1].position = Vector2f(A.x,A.y);
+        rw.draw(line);
+    }
 }
 
 void sensor::setPosition(const vector2d &pos){

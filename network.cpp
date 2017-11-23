@@ -66,7 +66,7 @@ unsigned int Network::size() const{
     return layers;
 }
 
-Vectord Network::getOutput() const{
+Vectord &Network::getOutput(){
     return output;
 }
 

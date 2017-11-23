@@ -10,10 +10,10 @@ using namespace std;
 class Network;
 
 class Trainer{
-    Network *n;
     unsigned int length;
     double randomness;
 public:
+    Network *n;
     unsigned int currentNet;
     Trainer();
     Trainer(Network n,double randomness,unsigned int population = 5);

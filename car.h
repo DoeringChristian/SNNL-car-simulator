@@ -6,19 +6,21 @@
 class sensor;
 
 class car{
+    ConvexShape c;
     vector2d pos;
-    double rotation = 1.6;
+    double rotation = 0;
     double rotspeed = 0;
     double sensorangel = 0.1;
     double speed;
     world *w;
     vector2d size;
+    bool isVisible = false;
 public:
     sensor left;
     sensor right;
     car();
     car(world &w,vector2d pos,double rotation = 0);
-    void upate(RenderWindow &rw, float frameTime);
+    void upate(RenderWindow &rw,bool isVisible);
     void setRotspeed(double rotspeed);
     void setSpeed(double speed);
     vector2d getPosition() const;
