@@ -1,8 +1,8 @@
 #include "poligon.h"
 
 poligon::poligon(){ 
-    this->points = 0;
-    this->length = 0;
+    points = 0;
+    length = 0;
 }
 poligon::poligon(uint length){
     this->length = length;

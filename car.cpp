@@ -40,7 +40,17 @@ void car::setSpeed(double speed){
     this->speed = speed;
 }
 
+vector2d car::getPosition() const{
+    return this->pos;
+}
 
+void car::setPosition(vector2d pos){
+    this->pos = pos;
+}
+
+void car::setRotation(double rotation){
+    this->rotation = rotation;
+}
 
 
 

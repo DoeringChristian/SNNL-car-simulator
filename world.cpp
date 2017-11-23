@@ -1,7 +1,6 @@
 #include "world.h"
 
-world::world(car &c){
-    this->c = &c;
+world::world(){
 }
 world::~world(){
     if(start != 0){

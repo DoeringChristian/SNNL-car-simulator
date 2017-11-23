@@ -3,16 +3,12 @@
 #include "pnode.h"
 #include "cube.h"
 #include "sensor.h"
-#include "car.h"
-
-class car;
 
 class world{
     pnode *start = 0;
     pnode *end = start;
-    car *c;
 public:
-    world(car &c);
+    world();
     ~world();
     
     void add(poligon &insert);
