@@ -9,7 +9,8 @@ using namespace sf;
 RenderWindow window(VideoMode(1000,600),"SFML");
 
 int main(){
-    bool isVisible = false;
+    double xq = 50;
+    bool isVisible = true;
     uint fTC = 0;
     uint a[4] = {2,3,3,2};
     world w;
@@ -49,13 +50,17 @@ int main(){
         cout <<  n2.getOutput()[0] << "|" << n2.getOutput()[1] << "|" << tr.currentNet << "|" << fTC << endl;
         
         if(c.getPosition().x < 0 || c.getPosition().x > 1000 || c.getPosition().y < 0 || c.getPosition().y > 100 || fTC > 10000){
-            n2 = tr.update(-c.getPosition().x,0.01);
+            xq /= fTC;
+            n2 = tr.update(-(c.getPosition().x*(1-pow(xq-50,2)/(10+pow(xq-50,2)))),0.01);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
+            xq = 50;
             fTC = 0;
         }
         fTC ++;
+        xq += c.getPosition().y;
         
+        srand(time(0));
         
         if(Keyboard::isKeyPressed(Keyboard::S)){
             tr[0].SavetoFile("backup01.snn");
