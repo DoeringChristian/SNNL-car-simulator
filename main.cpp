@@ -18,13 +18,13 @@ int main(){
     
     poligon p1(2);
     p1[0] = vector2d(0,0);
-    p1[1] = vector2d(1000,0);
+    p1[1] = vector2d(2000,0);
     poligon p2(2);
     p2[0] = vector2d(0,0);
     p2[1] = vector2d(0,100);
     poligon p3(2);
     p3[0] = vector2d(0,100);
-    p3[1] = vector2d(1000,100);
+    p3[1] = vector2d(2000,100);
     w.add(p1);
     w.add(p2);
     w.add(p3);
