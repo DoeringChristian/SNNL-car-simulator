@@ -1,7 +1,7 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 #include "world.h"
-#define MAX_DOUBLE 1.79769e+200
+#define MAX_DOUBLE 10005
 
 class world;
 

@@ -42,11 +42,11 @@ void sensor::update(RenderWindow &rw, world &w, bool isVisible){
             double dboth = sqrt(pow(C.x-cross.x,2)+pow(C.y-cross.y,2))+sqrt(pow(cross.x-D.x,2)+pow(cross.y-D.y,2));
             if(dall >= dboth){
                 if((A-cross).length() > (B-cross).length())
-                    if(distance == MAX_DOUBLE || distance > (A-cross).length()){
-                        distance = (A-cross).length();
-                        E = cross;
-                        //E.y = cross.y;
-                    }
+                        if((A-cross).length() < distance){
+                            distance = (A-cross).length();
+                            E = cross;
+                            //E.y = cross.y;
+                        }
             }
             
         }

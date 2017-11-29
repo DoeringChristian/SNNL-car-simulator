@@ -41,8 +41,8 @@ int main(){
             }
         }
         
-        n2.setInput(0,c.left.getDistance());
-        n2.setInput(1,c.right.getDistance());
+        n2.setInput(0,c.left.getDistance()/MAX_DOUBLE-0.5);
+        n2.setInput(1,c.right.getDistance()/MAX_DOUBLE-0.5);
         n2.update();
         c.setRotspeed(n2.getOutput()[0]-n2.getOutput()[1]);
         c.setSpeed((n2.getOutput()[0]+n2.getOutput()[1])/2);
