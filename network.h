@@ -11,10 +11,9 @@ class Network{
     unsigned int layers;
     unsigned int *nodes;
     double fitness;
-    Vectord input;
     Matrixd *m;
+    Vectord *v;
 public:
-    Vectord output;
     //con-/destructors
     Network();
     Network(unsigned int nodes[], unsigned int layers);
@@ -23,10 +22,11 @@ public:
     //operators
     void operator=(const Network &n);
     Matrixd &operator[](unsigned int index) const;
+    Vectord &operator()(unsigned int index) const;
     //functions
     void update();
     unsigned int size() const;
-    Vectord &getOutput();
+    Vectord getOutput() const;
     void setInput(unsigned int index, double value);
     unsigned int sizeAt(unsigned int index) const;
     bool SavetoFile(const std::string file) const;
