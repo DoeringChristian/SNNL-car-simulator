@@ -47,11 +47,11 @@ int main(){
         c.setRotspeed(n2.getOutput()[0]-n2.getOutput()[1]);
         c.setSpeed((n2.getOutput()[0]+n2.getOutput()[1])/2);
         
-        cout <<  n2.getOutput()[0] << "|" << n2.getOutput()[1] << "|" << tr.currentNet << "|" << fTC << "|" << xq/fTC << endl;
+        cout <<  n2.getOutput()[0] << "|" << n2.getOutput()[1] << "|" << tr.currentNet << "|" << fTC << "|" << (int)(c.getPosition().x-xq/fTC) << endl;
         
         if(c.getPosition().x < 0 || c.getPosition().x > 1000 || c.getPosition().y < 0 || c.getPosition().y > 100 || fTC > 10000){
             xq /= fTC;
-            n2 = tr.update(-(c.getPosition().x-xq/fTC),0.001);
+            n2 = tr.update(-(c.getPosition().x-xq/fTC),1/(c.getPosition().x-xq/fTC));//0.001);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
             xq = 50;
