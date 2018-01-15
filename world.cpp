@@ -52,12 +52,12 @@ void world::del(poligon &del){
     }
 }
 
-void world::update(RenderWindow &rw, bool isVisible){
+void world::update(RenderWindow &rw, bool isVisible, vector2d offset){
     this->isVisible = isVisible;
     pnode *n = start;
     if(start != 0){
         while(n != 0){
-            n->p->draw(rw,isVisible);
+            n->p->draw(rw,isVisible,offset);
             n = n->next;
         }
     }

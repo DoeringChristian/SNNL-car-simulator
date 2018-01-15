@@ -39,14 +39,14 @@ uint poligon::size() const{
     return this->length;
 }
 
-void poligon::draw(RenderWindow &rw, bool isVisible){
+void poligon::draw(RenderWindow &rw, bool isVisible, vector2d offset){
     this->isVisible = isVisible;
     if(isVisible){
         for(int i = 0;i < length;i++){
-            line[i].position = Vector2f(points[i].x,points[i].y);
+            line[i].position = Vector2f(points[i].x+offset.x,points[i].y+offset.y);
             line[i].color = this->outlineColor;
         }
-        line[length].position = Vector2f(points[0].x,points[0].y);
+        line[length].position = Vector2f(points[0].x+offset.x,points[0].y+offset.y);
         rw.draw(line);
     }
 }

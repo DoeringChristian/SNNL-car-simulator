@@ -12,14 +12,14 @@ car::car(world &w,vector2d pos, double rotation){
     c = ConvexShape(3);
 }
 
-void car::upate(RenderWindow &rw, bool isVisible){
+void car::upate(RenderWindow &rw, bool isVisible, vector2d offset){
     this->rotation += rotspeed*speed;
     
     this->pos.x += sin(rotation)*speed;
     this->pos.y += cos(rotation)*speed;
     
-    left.setPosition(pos);
-    right.setPosition(pos);
+    left.setPosition(pos+offset);
+    right.setPosition(pos+offset);
     this->left.setRotation(rotation-sensorangel);
     this->right.setRotation(rotation+sensorangel);
     left.update(rw,*w,isVisible);

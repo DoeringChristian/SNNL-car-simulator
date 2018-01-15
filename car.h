@@ -20,7 +20,7 @@ public:
     sensor right;
     car();
     car(world &w,vector2d pos,double rotation = 0);
-    void upate(RenderWindow &rw,bool isVisible);
+    void upate(RenderWindow &rw,bool isVisible,vector2d offset);
     void setRotspeed(double rotspeed);
     void setSpeed(double speed);
     vector2d getPosition() const;

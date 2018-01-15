@@ -26,7 +26,7 @@ public:
     vector2d &operator [](uint index) const;
     void operator =(const poligon &copy);
     uint size() const;
-    void draw(RenderWindow &rw,bool isVisible);
+    void draw(RenderWindow &rw,bool isVisible,vector2d offset);
     
     void setFillColor(Color c);
     void setOutlineColor(Color c);

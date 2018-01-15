@@ -17,7 +17,7 @@ public:
     uint size() const;
     poligon &operator [](uint index) const;
     
-    void update(RenderWindow &rw,bool isVisible);
+    void update(RenderWindow &rw,bool isVisible,vector2d offset);
 };
 
 #endif // WORLD_H
