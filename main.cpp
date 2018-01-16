@@ -12,7 +12,7 @@ int main(){
     double xq = 50;
     bool isVisible = true;
     uint fTC = 0;
-    uint a[4] = {2,3,3,2};
+    uint a[3] = {2,3,2};
     world w;
     car c(w,vector2d(50,50));
     
@@ -29,7 +29,8 @@ int main(){
     w.add(p2);
     w.add(p3);
     
-    Network n(a,4);
+    Network n(a,3);
+    n.LoadFile("test.snn");
     Trainer tr(n,0.1,5);
     Network n2 = n;
     n.randomize(1);
@@ -44,9 +45,13 @@ int main(){
         n2.setInput(0,c.left.getDistance()/MAX_DOUBLE-0.5);
         n2.setInput(1,c.right.getDistance()/MAX_DOUBLE-0.5);
         n2.update();
+#if 0
         c.setRotspeed(n2.getOutput()[0]-n2.getOutput()[1]);
         c.setSpeed((n2.getOutput()[0]+n2.getOutput()[1])/2);
-        
+#else 
+        c.setRotspeed(n2.getOutput()[0]-0.5);
+        c.setSpeed(n2.getOutput()[1]);
+#endif
         cout <<  n2.getOutput()[0] << "|" << n2.getOutput()[1] << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;
         
         if(c.getPosition().x < 0 || c.getPosition().x > 10000 || c.getPosition().y < 0 || c.getPosition().y > 100 || fTC > 10000){
@@ -56,6 +61,7 @@ int main(){
             c.setRotation(1.5);
             xq = 50;
             fTC = 0;
+            tr[0].SavetoFile("test.snn");
         }
         fTC ++;
         xq += sqrt(pow(c.getPosition().y-50,2));
