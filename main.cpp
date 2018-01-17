@@ -12,7 +12,7 @@ int main(){
     double xq = 50;
     bool isVisible = true;
     uint fTC = 0;
-    uint a[3] = {2,2,2};
+    uint a[2] = {2,2};
     world w;
     car c(w,vector2d(50,50));
     
@@ -29,7 +29,7 @@ int main(){
     w.add(p2);
     w.add(p3);
     
-    Network n(a,3);
+    Network n(a,2);
     n.LoadFile("test.snn");
     Trainer tr(n,0.1,5);
     Network n2 = n;
@@ -49,7 +49,7 @@ int main(){
         c.setRotspeed(n2.getOutput()[0]-n2.getOutput()[1]);
         c.setSpeed((n2.getOutput()[0]+n2.getOutput()[1])/2);
 #else 
-        c.setRotspeed(n2.getOutput()[0]-0.5);
+        c.setRotspeed((n2.getOutput()[0]-0.5));
         c.setSpeed(n2.getOutput()[1]);
 #endif
         cout <<  n2.getOutput()[0] << "|" << n2.getOutput()[1] << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;
