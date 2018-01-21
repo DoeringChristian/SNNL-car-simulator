@@ -3,9 +3,13 @@
 
 sensor::sensor(){
     line = VertexArray(Lines,2);
+    distance = MAX_DOUBLE;
+    rotation = 3.1415926535897932384626433832795;
 }
 sensor::sensor(vector2d pos){
     this->A = pos;
+    distance = MAX_DOUBLE;
+    rotation = 3.1415926535897932384626433832795;
 }
 
 double sensor::getDistance(){

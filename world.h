@@ -6,13 +6,14 @@
 #include "string"
 #include "fstream"
 #include "iostream"
+#include "stdlib.h"
 
 using namespace std;
 
 class world{
-    pnode *start = 0;
-    pnode *end = start;
-    bool isVisible = false;
+    pnode *start;
+    pnode *end;
+    bool isVisible;
 public:
     world();
     ~world();

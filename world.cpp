@@ -1,6 +1,9 @@
 #include "world.h"
 
 world::world(){
+    start = 0;
+    end = 0;
+    isVisible = false;
 }
 world::~world(){
     if(start != 0){
@@ -80,7 +83,8 @@ poligon &world::operator [](uint index) const{
 }
 
 bool world::LoadFile(string file){
-    ifstream in(file);
+    ifstream in;
+    in.open(file.c_str());
     if(in.good()){
         char test = ' ';
         while(test != ';'){
@@ -94,7 +98,8 @@ bool world::LoadFile(string file){
                 c = in.get();
                 line.append(string(1,c));
             }
-            line.erase(remove(line.begin(),line.end(),'\n'),line.end());
+            if(line[0] == '\n')
+                line = line.substr(1,line.length()-1);
             //add poligons
             if(line != "end;"){
                 string coords = line.substr(line.find_first_of(':')+1,line.find_last_of(';')-line.find_first_of(':')-1);
@@ -104,7 +109,6 @@ bool world::LoadFile(string file){
                         length++;
                 length++;
                 poligon *p = new poligon(length);
-                cout << "test" << endl;
                 string splited[length];
                 uint j = 0;
                 for(uint i = 0;i < coords.length();i++){
@@ -114,16 +118,18 @@ bool world::LoadFile(string file){
                         splited[j] += coords[i];
                 }
                 for(uint i = 0;i < length;i++){
-                    (*p)[i] = vector2d(stod(splited[i].substr(0,splited[i].find_first_of(','))),
-                                       stod(splited[i].substr(splited[i].find_first_of(',')+1,splited[i].length()-splited[i].find_first_of(','))));
+                    (*p)[i] = vector2d(atof(splited[i].substr(0,splited[i].find_first_of(',')).c_str()),
+                                       atof(splited[i].substr(splited[i].find_first_of(',')+1,splited[i].length()-splited[i].find_first_of(',')).c_str()));
                 }
                 this->add(*p);
+                cout << (*p)[0].y << endl;
             }
         }
         
     }
     else
         return false;
+    in.close();
 }
 
 

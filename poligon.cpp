@@ -3,12 +3,14 @@
 poligon::poligon(){ 
     points = 0;
     length = 0;
-    line = VertexArray(type,length+1);
+    line = VertexArray(LinesStrip,length+1);
+    this->isVisible = false;
 }
 poligon::poligon(uint length){
     this->length = length;
     this->points = new vector2d[length];
-    line = VertexArray(type,length+1);
+    line = VertexArray(LinesStrip,length+1);
+    this->isVisible = false;
 }
 poligon::poligon(const poligon &copy){
     delete [] points;
@@ -16,6 +18,7 @@ poligon::poligon(const poligon &copy){
     this->points = new vector2d[length];
     for(uint i = 0;i < length;i++)
         this->points[i] = copy[i];
+    this->isVisible = false;
 }
 
 poligon::~poligon(){
@@ -28,7 +31,7 @@ void poligon::operator =(const poligon &copy){
     this->points = new vector2d[length];
     for(uint i = 0;i < length;i++)
         this->points[i] = copy[i];
-    line = VertexArray(type,length+1);
+    line = VertexArray(LinesStrip,length+1);
 }
 
 vector2d &poligon::operator [](uint index) const{
@@ -44,7 +47,7 @@ void poligon::draw(RenderWindow &rw, bool isVisible, vector2d offset){
     if(isVisible){
         for(uint i = 0;i < length;i++){
             line[i].position = Vector2f(points[i].x+offset.x,points[i].y+offset.y);
-            line[i].color = this->outlineColor;
+            line[i].color = Color::White;
         }
         line[length].position = Vector2f(points[0].x+offset.x,points[0].y+offset.y);
         rw.draw(line);
@@ -90,16 +93,6 @@ bool poligon::Contains(const vector2d &inside) const{
     if(count % 2 == 1)
         return true;
     return false;
-}
-
-void poligon::setFillColor(Color c){
-    this->fillColor = c;
-}
-void poligon::setOutlineColor(Color c){
-    this->outlineColor = c;
-}
-void poligon::setOutlineThickness(double thickness){
-    this->outlineThickness = thickness;
 }
 
 

@@ -8,13 +8,13 @@ class sensor;
 class car{
     ConvexShape c;
     vector2d pos;
-    double rotation = 0;
-    double rotspeed = 0;
-    double sensorangel = 0.15;
+    double rotation;
+    double rotspeed;
+    double sensorangel;
     double speed;
     world *w;
     vector2d size;
-    bool isVisible = false;
+    bool isVisible;
 public:
     sensor left;
     sensor right;

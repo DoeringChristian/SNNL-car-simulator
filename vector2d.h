@@ -5,7 +5,7 @@
 using namespace std;
 
 struct vector2d{
-    double x = 0,y = 0;
+    double x,y;
     vector2d();
     vector2d(double x,double y);
     vector2d(const vector2d &copy);

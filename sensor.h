@@ -7,10 +7,10 @@ class world;
 
 class sensor{
     VertexArray line;
-    double distance = MAX_DOUBLE;
+    double distance;
     vector2d A;
     vector2d E;
-    double rotation = 3.1415926535897932384626433832795;
+    double rotation;
 public:
     sensor();
     sensor(vector2d pos);

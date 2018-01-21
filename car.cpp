@@ -4,12 +4,19 @@ car::car(){
     this->size = vector2d(10,20);
     this->pos = vector2d(0,0);
     c = ConvexShape(3);
+    rotation = 0;
+    rotspeed = 0;
+    sensorangel = 0.15;
+    isVisible = false;
 }
 car::car(world &w,vector2d pos, double rotation){
     this->pos = pos;
     this->rotation = rotation;
     this->w = &w;
     c = ConvexShape(3);
+    rotspeed = 0;
+    sensorangel = 0.15;
+    isVisible = false;
 }
 
 void car::upate(RenderWindow &rw, bool isVisible, vector2d offset){

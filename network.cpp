@@ -121,8 +121,7 @@ bool Network::SavetoFile(const string file) const{
 }
 
 bool Network::LoadFile(const string file){
-    ifstream in;
-    in.open(file);
+    ifstream in(file.c_str());
     if(in.good()){
 	    //delete old:
 	    delete [] this->m;

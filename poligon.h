@@ -12,11 +12,7 @@ protected:
     VertexArray line;
     vector2d *points;
     uint length;
-    Color fillColor = Color::Black;
-    Color outlineColor = Color::White;
-    double outlineThickness = 1;
-    PrimitiveType type = LinesStrip;
-    bool isVisible = false;
+    bool isVisible;
 public:
     poligon();
     poligon(uint length);

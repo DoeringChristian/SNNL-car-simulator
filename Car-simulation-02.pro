@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += console c++98
 CONFIG -= app_bundle
 CONFIG -= qt
 
@@ -14,8 +14,7 @@ SOURCES += main.cpp \
     trainer.cpp \
     vector2d.cpp \
     vectord.cpp \
-    world.cpp \
-    line.cpp
+    world.cpp
 
 DEFINES += SFML_STATIC
 
@@ -40,5 +39,4 @@ HEADERS += \
     trainer.h \
     vector2d.h \
     vectord.h \
-    world.h \
-    line.h
+    world.h
