@@ -3,6 +3,11 @@
 #include "pnode.h"
 #include "cube.h"
 #include "sensor.h"
+#include "string"
+#include "fstream"
+#include "iostream"
+
+using namespace std;
 
 class world{
     pnode *start = 0;
@@ -18,6 +23,7 @@ public:
     poligon &operator [](uint index) const;
     
     void update(RenderWindow &rw,bool isVisible,vector2d offset);
+    bool LoadFile(string file);
 };
 
 #endif // WORLD_H

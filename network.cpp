@@ -122,7 +122,7 @@ bool Network::SavetoFile(const string file) const{
 
 bool Network::LoadFile(const string file){
     ifstream in;
-    in.open(file.c_str());
+    in.open(file);
     if(in.good()){
 	    //delete old:
 	    delete [] this->m;
@@ -161,6 +161,7 @@ bool Network::LoadFile(const string file){
 	}
 	else
 		return false;
+    in.close();
 }
 
 double Network::getFitness() const{

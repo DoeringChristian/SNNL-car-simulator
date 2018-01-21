@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     trainer.cpp \
     vector2d.cpp \
     vectord.cpp \
-    world.cpp
+    world.cpp \
+    line.cpp
 
 DEFINES += SFML_STATIC
 
@@ -39,4 +40,5 @@ HEADERS += \
     trainer.h \
     vector2d.h \
     vectord.h \
-    world.h
+    world.h \
+    line.h

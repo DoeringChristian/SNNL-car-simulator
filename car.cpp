@@ -18,20 +18,25 @@ void car::upate(RenderWindow &rw, bool isVisible, vector2d offset){
     this->pos.x += sin(rotation)*speed;
     this->pos.y += cos(rotation)*speed;
     
-    left.setPosition(pos+offset);
-    right.setPosition(pos+offset);
+    left.setPosition(pos);
+    right.setPosition(pos);
     this->left.setRotation(rotation-sensorangel);
     this->right.setRotation(rotation+sensorangel);
-    left.update(rw,*w,isVisible);
-    right.update(rw,*w,isVisible);
+    left.update(rw,*w,isVisible,offset);
+    right.update(rw,*w,isVisible,offset);
     
     if(isVisible){
         c.setFillColor(Color::Red);
-        c.setPoint(0,Vector2f(0,this->size.y/2));
-        c.setPoint(1,Vector2f(-this->size.x/2,-this->size.y/2));
-        c.setPoint(2,Vector2f(+this->size.x/2,-this->size.y/2));
+        c.setPointCount(4);
+        vector2d A = (this->size*0.5).rotate(this->rotation)+this->pos;
+        vector2d B = (vector2d(-this->size.x,-this->size.y)*0.5).rotate(this->rotation)+this->pos;
+        vector2d C = (vector2d(this->size.x,-this->size.y)*0.5).rotate(this->rotation)+this->pos;
+        vector2d D = (vector2d(-this->size.x,this->size.y)*0.5).rotate(this->rotation)+this->pos;
+        c.setPoint(0,Vector2f(A.x,A.y));
+        c.setPoint(1,Vector2f(C.x,C.y));
+        c.setPoint(2,Vector2f(B.x,B.y));
+        c.setPoint(3,Vector2f(D.x,D.y));
         c.setPosition(pos.x,pos.y);
-        c.rotate(rotation);
         rw.draw(c);
     }
 }
@@ -53,6 +58,18 @@ void car::setPosition(vector2d pos){
 
 void car::setRotation(double rotation){
     this->rotation = rotation;
+}
+
+bool car::isColliding(){
+    for(uint i = 0;i < w->size();i++){
+        vector2d A = (this->size*0.5).rotate(this->rotation)+this->pos;
+        vector2d B = (vector2d(-this->size.x,-this->size.y)*0.5).rotate(this->rotation)+this->pos;
+        vector2d C = (vector2d(this->size.x,-this->size.y)*0.5).rotate(this->rotation)+this->pos;
+        vector2d D = (vector2d(-this->size.x,this->size.y)*0.5).rotate(this->rotation)+this->pos;
+        if((*w)[i].Contains(A) || (*w)[i].Contains(B) || (*w)[i].Contains(C) || (*w)[i].Contains(D))
+            return true;
+    }
+    return false;
 }
 
 

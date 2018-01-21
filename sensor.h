@@ -16,8 +16,8 @@ public:
     sensor(vector2d pos);
     void setPosition(const vector2d &pos);
     void setRotation(double rotation);
+    void update(RenderWindow &rw, world &w, bool isVisible, vector2d offset);
     double getDistance();
-    void update(RenderWindow &rw, world &w, bool isVisible);
 };
 
 #endif // SENSOR_H

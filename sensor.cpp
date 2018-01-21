@@ -12,7 +12,7 @@ double sensor::getDistance(){
     return distance;
 }
 
-void sensor::update(RenderWindow &rw, world &w, bool isVisible){
+void sensor::update(RenderWindow &rw, world &w, bool isVisible,vector2d offset){
     distance = MAX_DOUBLE;
     vector2d B(A.x+sin(rotation),A.y+cos(rotation));
     vector2d cross;
@@ -38,9 +38,10 @@ void sensor::update(RenderWindow &rw, world &w, bool isVisible){
                 cross.x = xtop/div;
                 cross.y = ytop/div;
             }
-            double dall = sqrt(pow(C.x-D.x,2)+pow(C.y-D.y,2));
-            double dboth = sqrt(pow(C.x-cross.x,2)+pow(C.y-cross.y,2))+sqrt(pow(cross.x-D.x,2)+pow(cross.y-D.y,2));
-            if(dall >= dboth){
+            //double dall = sqrt(pow(C.x-D.x,2)+pow(C.y-D.y,2));
+            //double dboth = sqrt(pow(C.x-cross.x,2)+pow(C.y-cross.y,2))+sqrt(pow(cross.x-D.x,2)+pow(cross.y-D.y,2));
+            //if(dall >= dboth){
+            if((C-D).length()+1 >= (C-cross).length()+(D-cross).length()){
                 if((A-cross).length() > (B-cross).length())
                         if((A-cross).length() < distance){
                             distance = (A-cross).length();
@@ -54,9 +55,9 @@ void sensor::update(RenderWindow &rw, world &w, bool isVisible){
         E = A+(B-A)*sqrt(pow(rw.getSize().x,2)+pow(rw.getSize().y,2));
     if(isVisible){
         line[0].color = Color::Green;
-        line[0].position = Vector2f(E.x,E.y);
+        line[0].position = Vector2f(E.x+offset.x,E.y+offset.y);
         line[1].color = Color::Green;
-        line[1].position = Vector2f(A.x,A.y);
+        line[1].position = Vector2f(A.x+offset.x,A.y+offset.y);
         rw.draw(line);
     }
 }

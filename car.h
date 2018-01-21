@@ -26,6 +26,7 @@ public:
     vector2d getPosition() const;
     void setPosition(vector2d pos);
     void setRotation(double rotation);
+    bool isColliding();
     
 };
 

@@ -14,20 +14,16 @@ world::~world(){
 }
 
 void world::add(poligon &insert){
-    pnode *n = start;
-    if(n == 0){
+    if(start == 0){
         start = new pnode;
         start->p = &insert;
         end = start;
     }
     else{
-        while(n != end)
-            n = n->next;
-        pnode *n2 = new pnode;
-        end = n2;
-        n->next = n2;
-        n2->befor = n;
-        n2->p = &insert;
+        end->next = new pnode;
+        end->next->p = &insert;
+        end->next->befor = end;
+        end = end->next;
     }
 }
 
@@ -81,6 +77,53 @@ poligon &world::operator [](uint index) const{
         n = n->next;
     }
     return *(n->p);
+}
+
+bool world::LoadFile(string file){
+    ifstream in(file);
+    if(in.good()){
+        char test = ' ';
+        while(test != ';'){
+            test = in.get();
+        };
+        string line;
+        while(line != "end;"){
+            line = "";
+            char c = in.get();
+            while(c != ';'){
+                c = in.get();
+                line.append(string(1,c));
+            }
+            line.erase(remove(line.begin(),line.end(),'\n'),line.end());
+            //add poligons
+            if(line != "end;"){
+                string coords = line.substr(line.find_first_of(':')+1,line.find_last_of(';')-line.find_first_of(':')-1);
+                uint length = 0;
+                for(uint i = 0;i < coords.length();i++)
+                    if(coords[i] == '|')
+                        length++;
+                length++;
+                poligon *p = new poligon(length);
+                cout << "test" << endl;
+                string splited[length];
+                uint j = 0;
+                for(uint i = 0;i < coords.length();i++){
+                    if(coords[i] == '|')
+                        j++;
+                    else
+                        splited[j] += coords[i];
+                }
+                for(uint i = 0;i < length;i++){
+                    (*p)[i] = vector2d(stod(splited[i].substr(0,splited[i].find_first_of(','))),
+                                       stod(splited[i].substr(splited[i].find_first_of(',')+1,splited[i].length()-splited[i].find_first_of(','))));
+                }
+                this->add(*p);
+            }
+        }
+        
+    }
+    else
+        return false;
 }
 
 

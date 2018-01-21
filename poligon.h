@@ -27,6 +27,7 @@ public:
     void operator =(const poligon &copy);
     uint size() const;
     void draw(RenderWindow &rw,bool isVisible,vector2d offset);
+    bool Contains(const vector2d &inside) const;
     
     void setFillColor(Color c);
     void setOutlineColor(Color c);
