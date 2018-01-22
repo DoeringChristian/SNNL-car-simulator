@@ -6,17 +6,25 @@ car::car(){
     c = ConvexShape(3);
     rotation = 0;
     rotspeed = 0;
-    sensorangel = 0.15;
     isVisible = false;
+    this->s = 0;
+    length = 0;
 }
-car::car(world &w,vector2d pos, double rotation){
+car::car(world &w, vector2d pos, uint sensors, double rotation){
     this->pos = pos;
     this->rotation = rotation;
     this->w = &w;
     c = ConvexShape(3);
     rotspeed = 0;
-    sensorangel = 0.15;
     isVisible = false;
+    length = sensors;
+    s = new sensor[sensors];
+    for(uint i = 0;i < sensors;i++)
+        s[i] = sensor(pos,0);
+}
+
+car::~car(){
+    delete [] s;
 }
 
 void car::upate(RenderWindow &rw, bool isVisible, vector2d offset){
@@ -25,12 +33,11 @@ void car::upate(RenderWindow &rw, bool isVisible, vector2d offset){
     this->pos.x += sin(rotation)*speed;
     this->pos.y += cos(rotation)*speed;
     
-    left.setPosition(pos);
-    right.setPosition(pos);
-    this->left.setRotation(rotation-sensorangel);
-    this->right.setRotation(rotation+sensorangel);
-    left.update(rw,*w,isVisible,offset);
-    right.update(rw,*w,isVisible,offset);
+    for(uint i = 0;i < getLength();i++){
+        this->s[i].setPosition(pos);
+        this->s[i].setRotation(rotation-s[i].m_rotation);
+        this->s[i].update(rw,*w,isVisible,offset);
+    }
     
     if(isVisible){
         c.setFillColor(Color::Red);
@@ -77,6 +84,14 @@ bool car::isColliding(){
             return true;
     }
     return false;
+}
+
+uint car::getLength() const{
+    return this->length;
+}
+
+sensor &car::operator [](const unsigned int i) const{
+    return this->s[i];
 }
 
 

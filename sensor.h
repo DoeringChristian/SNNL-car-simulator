@@ -12,12 +12,14 @@ class sensor{
     vector2d E;
     double rotation;
 public:
+    double m_rotation;
     sensor();
-    sensor(vector2d pos);
+    sensor(vector2d pos,double m_rotation);
     void setPosition(const vector2d &pos);
     void setRotation(double rotation);
     void update(RenderWindow &rw, world &w, bool isVisible, vector2d offset);
     double getDistance();
+    void operator = (const sensor &copy);
 };
 
 #endif // SENSOR_H
