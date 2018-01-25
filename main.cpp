@@ -45,15 +45,20 @@ int main(){
         n2.update();
         
         c.setRotspeed((n2.getOutput()[0]-0.5));
-        c.setSpeed(n2.getOutput()[1]-0.5);
+        c.setSpeed(n2.getOutput()[1]);
         
-        cout <<  n2.getOutput()[0]-0.5 << "|" << n2.getOutput()[1]-0.5 << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;
+        cout <<  n2.getOutput()[0]-0.5 << "|" << n2.getOutput()[1] << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;
         
         if(c.isColliding() || fTC > 10000 || (fTC > 1000 && c.getPosition().x < 60)){
             xq /= fTC;
-            if(tr.currentNet == 0)
+            if(tr.currentNet == 0){
                 generation++;
-            n2 = tr.update(-(c.getPosition().x),0.3,0.1);
+                ofstream log;
+                log.open("log.txt",ofstream::out | ofstream::app);
+                log << "position: " << c.getPosition().x << " generation: " << generation << endl;
+                log.close();
+            }
+            n2 = tr.update(-(c.getPosition().x),0.1,0.1);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
             xq = 50;
