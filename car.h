@@ -9,16 +9,18 @@ class car{
     ConvexShape c;
     vector2d pos;
     double rotation;
-    double rotspeed;
+    
     double speed;
     world *w;
     vector2d size;
     bool isVisible;
     sensor *s;
     uint length;
+    double max_angle;
+    double rotspeed;
 public:
     car();
-    car(world &w,vector2d pos,uint sensors,double rotation = 0);
+    car(world &w, vector2d pos, uint sensors, double rotation = 0, double max_angle = 0.01);
     ~car();
     void upate(RenderWindow &rw,bool isVisible,vector2d offset);
     void setRotspeed(double rotspeed);

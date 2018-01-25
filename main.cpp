@@ -18,7 +18,7 @@ int main(){
     uint fTC = 0;
     uint a[4] = {5,4,3,2};
     world w;
-    car c(w,vector2d(50,50),5);
+    car c(w,vector2d(50,50),5,0.01);
     c[0] = sensor(vector2d(0,0),1);
     c[1] = sensor(vector2d(0,0),-1);
     c[2] = sensor(vector2d(0,0),0.15);
@@ -53,7 +53,7 @@ int main(){
             xq /= fTC;
             if(tr.currentNet == 0)
                 generation++;
-            n2 = tr.update(-(c.getPosition().x),0.1,0.1);
+            n2 = tr.update(-(c.getPosition().x),0.3,0.1);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
             xq = 50;
