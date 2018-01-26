@@ -20,7 +20,7 @@ class car{
     double rotspeed;
 public:
     car();
-    car(world &w, vector2d pos, uint sensors, double rotation = 0, double max_angle = 0.01);
+    car(world &w, vector2d pos, uint sensors, double max_angle = 0.01, double rotation = 0);
     ~car();
     void upate(RenderWindow &rw,bool isVisible,vector2d offset);
     void setRotspeed(double rotspeed);

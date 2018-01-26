@@ -18,7 +18,7 @@ int main(){
     uint fTC = 0;
     uint a[4] = {5,4,3,2};
     world w;
-    car c(w,vector2d(50,50),5,0.01);
+    car c(w,vector2d(50,50),5,0.02);
     c[0] = sensor(vector2d(0,0),1);
     c[1] = sensor(vector2d(0,0),-1);
     c[2] = sensor(vector2d(0,0),0.15);
@@ -27,7 +27,7 @@ int main(){
     
     w.LoadFile("test.sim");
     
-    Network n(a,4);
+    Network n(a,4,false);
     n.LoadFile("test.snn");
     Trainer tr(n,1,10);
     Network n2 = n;
@@ -51,14 +51,15 @@ int main(){
         
         if(c.isColliding() || fTC > 10000 || (fTC > 1000 && c.getPosition().x < 60)){
             xq /= fTC;
-            if(tr.currentNet == 0){
+            if(tr.currentNet == tr.size()-1)
                 generation++;
+            if(tr.currentNet == 0){
                 ofstream log;
                 log.open("log.txt",ofstream::out | ofstream::app);
                 log << "position: " << c.getPosition().x << " generation: " << generation << endl;
                 log.close();
             }
-            n2 = tr.update(-(c.getPosition().x),0.1,0.1);
+            n2 = tr.update(-(c.getPosition().x),0.3,0.1);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
             xq = 50;
