@@ -31,7 +31,7 @@ int main(){
     if(!n.LoadFile("test.snn"))
         n.randomize(1,2);
     Trainer tr(n,1,10);
-    Network n2 = n;
+    n = tr.current();
     //n.randomize(1);
     while(window.isOpen()){
         Event event;
@@ -41,14 +41,14 @@ int main(){
             }
         }
         
-        for(uint i = 0;i < n2.sizeAt(0);i++)
-            n2.setInput(i,c[i].getDistance()/MAX_DOUBLE-0.5);
-        n2.update();
+        for(uint i = 0;i < n.sizeAt(0);i++)
+            n.setInput(i,c[i].getDistance()/MAX_DOUBLE-0.5);
+        n.update();
         
-        c.setRotspeed((n2.getOutput()[0]-0.5));
-        c.setSpeed(n2.getOutput()[1]);
+        c.setRotspeed((n.getOutput()[0]-0.5));
+        c.setSpeed(n.getOutput()[1]);
         
-        cout <<  n2.getOutput()[0]-0.5 << "|" << n2.getOutput()[1] << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;
+        cout <<  n.getOutput()[0]-0.5 << "|" << n.getOutput()[1] << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;
         
         if(c.isColliding() || fTC > 10000 || (fTC > 1000 && c.getPosition().x < 60)){
             xq /= fTC;
@@ -60,7 +60,7 @@ int main(){
                 log << "position: " << c.getPosition().x << " generation: " << generation << endl;
                 log.close();
             }
-            n2 = tr.update(-(c.getPosition().x),0.3,0.1);
+            n = tr.update(-(c.getPosition().x),0.3,0.1);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
             xq = 50;
@@ -88,7 +88,7 @@ int main(){
         window.clear(Color::Black);
         w.update(window,isVisible,vector2d(-c.getPosition().x+window.getSize().x/2,-c.getPosition().y+window.getSize().y/2));
         c.upate(window,isVisible,vector2d(-c.getPosition().x+window.getSize().x/2,-c.getPosition().y+window.getSize().y/2));
-        draw_network(n2,window);
+        draw_network(n,window);
         window.display();
     }
     tr[0].SavetoFile("test.snn");

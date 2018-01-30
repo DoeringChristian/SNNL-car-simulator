@@ -130,6 +130,7 @@ bool world::LoadFile(string file){
     else
         return false;
     in.close();
+    return true;
 }
 
 
