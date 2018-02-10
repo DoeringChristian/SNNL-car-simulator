@@ -14,6 +14,15 @@ int main(){
     srand(time(0));
     double xq = 50;
     bool isVisible = true;
+    
+    //set max generation
+    int maxgen = -1;
+    string in;
+    cout << "max generations (-1 for infinit):" << endl;
+    cin >> in;
+    maxgen = atoi(in.c_str());
+    
+    
     uint generation = 0;
     uint fTC = 0;
     uint a[4] = {5,4,3,2};
@@ -30,7 +39,7 @@ int main(){
     Network n(a,4,false);
     if(!n.LoadFile("test.snn"))
         n.randomize(1,2);
-    Trainer tr(n,1,10);
+    Trainer tr(n,1,SOF_First_Second,10);
     n = tr.current();
     //n.randomize(1);
     while(window.isOpen()){
@@ -66,6 +75,9 @@ int main(){
             xq = 50;
             fTC = 0;
             tr[0].SavetoFile("test.snn");
+            //max generation exeption
+            if(generation >= maxgen && maxgen != -1)
+                break;
         }
         fTC ++;
         xq += sqrt(pow(c.getPosition().y-50,2));

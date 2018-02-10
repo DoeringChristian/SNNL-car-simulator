@@ -46,6 +46,8 @@ Vectord Vectord::operator +(const Vectord &v) const{
 }
 
 void Vectord::operator =(const Vectord &v){
+    if(&v == this)
+        return;
     //= operator to copy the values of the pointer-array
     delete [] vect;
     this->length = v.size();
