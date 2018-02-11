@@ -57,18 +57,21 @@ int main(){
         c.setRotspeed((n.getOutput()[0]-0.5));
         c.setSpeed(n.getOutput()[1]);
         
-        cout <<  n.getOutput()[0]-0.5 << "|" << n.getOutput()[1] << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;
+        //cout <<  n.getOutput()[0]-0.5 << "|" << n.getOutput()[1] << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;
         
         if(c.isColliding() || fTC > 10000 || (fTC > 1000 && c.getPosition().x < 60)){
             xq /= fTC;
-            if(tr.currentNet == tr.size()-1)
+            if(tr.currentNet == tr.size()-1){
+                cout << "generation: " << generation << "networks: ";
                 generation++;
+            }
             if(tr.currentNet == 0){
                 ofstream log;
                 log.open("log.txt",ofstream::out | ofstream::app);
                 log << "position: " << c.getPosition().x << " generation: " << generation << endl;
                 log.close();
             }
+            
             n = tr.update(-(c.getPosition().x),0.3,0.1);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
