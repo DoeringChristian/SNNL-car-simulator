@@ -1,4 +1,3 @@
-#define OUTPUT
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "simulation.h"
@@ -67,6 +66,9 @@ int main(){
             cout << "network: " << tr.currentNet << endl;
             if(tr.currentNet == tr.size()-1){
                 cout << "generation: " << generation << " networks: ";
+                for(uint i = 0;i < tr.size();i++)
+                    cout << tr[i].getFitness() << "|";
+                cout << endl;
                 generation++;
             }
             if(tr.currentNet == 0){
@@ -75,6 +77,7 @@ int main(){
                 log << "score: " << score << " generation: " << generation << endl;
                 log.close();
             }
+            
             
             n = tr.update(-(score),0.3,0.1);
             c.setPosition(vector2d(50,50));
