@@ -1,3 +1,4 @@
+#define OUTPUT
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "simulation.h"
