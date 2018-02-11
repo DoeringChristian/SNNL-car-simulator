@@ -62,7 +62,7 @@ int main(){
         if(c.isColliding() || fTC > 10000 || (fTC > 1000 && c.getPosition().x < 60)){
             xq /= fTC;
             if(tr.currentNet == tr.size()-1){
-                cout << "generation: " << generation << "networks: ";
+                cout << "generation: " << generation << " networks: ";
                 generation++;
             }
             if(tr.currentNet == 0){
