@@ -81,7 +81,7 @@ int main(){
             if(score > max_score)
                 max_score = score;
             
-            n = tr.update(-(score),0.3,0.1);
+            n = tr.update(-(score),0.1,10/max_score);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
             car_prev = c.getPosition();
