@@ -29,7 +29,26 @@ car::~car(){
     delete [] s;
 }
 
-void car::upate(RenderWindow &rw, bool isVisible, vector2d offset){
+void car::operator =(const car &copy){
+    if(this == &copy)
+        return;
+    delete [] s;
+    this->length = copy.length;
+    s = new sensor[length];
+    for(uint i = 0;i < length;i++)
+        s[i] = copy[i];
+    this->c = copy.c;
+    this->isVisible = copy.isVisible;
+    this->max_angle = copy.max_angle;
+    this->pos = copy.pos;
+    this->rotation = copy.rotation;
+    this->rotspeed = copy.rotspeed;
+    this->size = copy.size;
+    this->speed = copy.speed;
+    this->w = copy.w;
+}
+
+void car::update(RenderWindow &rw, bool isVisible, vector2d offset){
     this->rotation += rotspeed*speed;
     
     this->pos.x += sin(rotation)*speed;

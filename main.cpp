@@ -11,10 +11,7 @@ RenderWindow window(VideoMode(1000,600),"SFML");
 void draw_network(const Network &n, RenderWindow &rw);
 
 int main(){
-    srand(time(0));
     bool isVisible = true;
-    vector2d car_prev;
-    double score = 0;
     double max_score = 0;
     
     //set max generation
@@ -41,9 +38,16 @@ int main(){
     Network n(a,4,false);
     if(!n.LoadFile("test.snn"))
         n.randomize(1,2);
-    Trainer tr(n,1,SOF_First_Second,10);
-    n = tr.current();
-    //n.randomize(1);
+    Trainer tr(n,10);
+    
+    car agents[tr.size()];
+    for(uint i = 0;i < tr.size();i++)
+        agents[i] = c;
+    vector2d car_prev[tr.size()];
+    bool isAlive[tr.size()];
+    for(uint i = 0;i < tr.size();i++)
+        isAlive[i] = true;
+    
     while(window.isOpen()){
         Event event;
         while(window.pollEvent(event)){
@@ -52,72 +56,89 @@ int main(){
             }
         }
         
-        for(uint i = 0;i < n.sizeAt(0);i++)
-            n.setInput(i,c[i].getDistance()/MAX_DOUBLE-0.5);
-        n.update();
+        for(uint i = 0;i < tr.size();i++){
+            for(uint j = 0;j < tr[i].sizeAt(0);j++)
+                tr[i].setInput(j,agents[i][j].getDistance()/MAX_DOUBLE-0.5);
+            tr[i].update();
+            agents[i].setRotspeed(tr[i].getOutput()[0]-0.5);
+            agents[i].setSpeed(tr[i].getOutput()[1]);
+            tr[i].setFitness(tr[i].getFitness()-(agents[i].getPosition()-car_prev[i]).length());
+            car_prev[i] = agents[i].getPosition();
+            if(-tr[i].getFitness() > max_score)
+                max_score = -tr[i].getFitness();
+        }
+        bool crash = true;
+        for(uint i = 0;i < tr.size();i++){
+            if(!agents[i].isColliding())
+                crash = false;
+            isAlive[i] = !agents[i].isColliding();
+        }
+        if(fTC > 1000)
+            for(uint i = 0;i < tr.size();i++)
+                if(tr[i].getFitness() > -10)
+                    isAlive[i] = false;
         
-        c.setRotspeed((n.getOutput()[0]-0.5));
-        c.setSpeed(n.getOutput()[1]);
-        score += (c.getPosition()-car_prev).length();
-        car_prev = c.getPosition();
-        
-        //cout <<  n.getOutput()[0]-0.5 << "|" << n.getOutput()[1] << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;
-        
-        if(c.isColliding() || fTC > 10000 || (fTC > 1000 && score < 10)){
-            cout << "network: " << tr.currentNet << endl;
-            if(tr.currentNet == tr.size()-1){
-                cout << "generation: " << generation << " networks: ";
-                for(uint i = 0;i < tr.size();i++)
-                    cout << tr[i].getFitness() << "|";
-                cout << endl;
-                generation++;
+        if(crash || fTC > 10000){
+            tr.update(0.1,10/max_score);
+            for(uint i = 0;i < tr.size();i++){
+                agents[i] = c;
+                isAlive[i] = true;
             }
-            if(tr.currentNet == 0){
-                ofstream log;
-                log.open("log.txt",ofstream::out | ofstream::app);
-                log << "score: " << score << " generation: " << generation << endl;
-                log.close();
-            }
-            if(score > max_score)
-                max_score = score;
-            
-            n = tr.update(-(score),0.1,10/max_score);
-            c.setPosition(vector2d(50,50));
-            c.setRotation(1.5);
-            car_prev = c.getPosition();
-            score = 0;
+            generation++;
+            cout << "generation: " << generation << " best: " << tr[tr.best()].getFitness() << endl;
             fTC = 0;
-            tr[0].SavetoFile("test.snn");
-            //max generation exeption
-            if(generation >= maxgen && maxgen != -1)
+            tr.resetFitness();
+            //logging:
+            ofstream log;
+            log.open("log.txt",ofstream::out | ofstream::app);
+            log << "score: " << tr[tr.best()].getFitness() << " generation: " << generation << endl;
+            log.close();
+            tr[tr.best()].SavetoFile("test.snn");
+            if(maxgen > -1 && generation > maxgen)
                 break;
         }
-        fTC ++;
-        
-        if(Keyboard::isKeyPressed(Keyboard::S)){
-            tr[0].SavetoFile("backup01.snn");
-            while(Keyboard::isKeyPressed(Keyboard::S)){}
-        }
-        if(Keyboard::isKeyPressed(Keyboard::V)){
-            isVisible = !isVisible;
-            while(Keyboard::isKeyPressed(Keyboard::V)){}
-        }
-#if 1
-        if(Keyboard::isKeyPressed(Keyboard::K)){
-            fTC = 10000;
-            while(Keyboard::isKeyPressed(Keyboard::K)){}
-        }
+#if 0
+        uint best = 0;
+        for(uint i = 0;i < tr.size();i++)
+            if(isAlive[i] && tr[i].getFitness() < tr[best].getFitness())
+                best = i;
 #endif
-        
         window.clear(Color::Black);
-        w.update(window,isVisible,vector2d(-c.getPosition().x+window.getSize().x/2,-c.getPosition().y+window.getSize().y/2));
-        c.upate(window,isVisible,vector2d(-c.getPosition().x+window.getSize().x/2,-c.getPosition().y+window.getSize().y/2));
-        draw_network(n,window);
+        w.update(window,isVisible,vector2d(-agents[tr.best()].getPosition().x+window.getSize().x/2,
+                 -agents[tr.best()].getPosition().y+window.getSize().y/2));
+        for(uint i = 0;i < tr.size();i++){
+            if(isAlive[i])
+                agents[i].update(window,isVisible,vector2d(-agents[tr.best()].getPosition().x+window.getSize().x/2,
+                                 -agents[tr.best()].getPosition().y+window.getSize().y/2));
+        }
+        
+        //c.upate(window,isVisible,vector2d(-c.getPosition().x+window.getSize().x/2,-c.getPosition().y+window.getSize().y/2));
+        draw_network(tr[tr.best()],window);
         window.display();
+        fTC++;
     }
-    tr[0].SavetoFile("test.snn");
+    tr[tr.best()].SavetoFile("test.snn");
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void draw_network(const Network &n,RenderWindow &rw){
     const double d = 50;

@@ -19,7 +19,7 @@ public:
     void setRotation(double rotation);
     void update(RenderWindow &rw, world &w, bool isVisible, vector2d offset);
     double getDistance();
-    void operator = (const sensor &copy);
+    void operator =(const sensor &copy);
 };
 
 #endif // SENSOR_H

@@ -14,6 +14,7 @@ class car{
     world *w;
     vector2d size;
     bool isVisible;
+    bool isAlive;
     sensor *s;
     uint length;
     double max_angle;
@@ -22,7 +23,8 @@ public:
     car();
     car(world &w, vector2d pos, uint sensors, double max_angle = 0.01, double rotation = 1.5);
     ~car();
-    void upate(RenderWindow &rw,bool isVisible,vector2d offset);
+    void operator =(const car &copy);
+    void update(RenderWindow &rw,bool isVisible,vector2d offset);
     void setRotspeed(double rotspeed);
     void setSpeed(double speed);
     vector2d getPosition() const;
