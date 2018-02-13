@@ -27,7 +27,7 @@ double sensor::getDistance(){
     return distance;
 }
 
-void sensor::update(RenderWindow &rw, world &w, bool isVisible,vector2d offset){
+void sensor::update(RenderWindow &rw, world &w){
     distance = MAX_DOUBLE;
     vector2d B(A.x+sin(rotation),A.y+cos(rotation));
     vector2d cross;
@@ -68,6 +68,10 @@ void sensor::update(RenderWindow &rw, world &w, bool isVisible,vector2d offset){
         }
     if(distance == MAX_DOUBLE)
         E = A+(B-A)*sqrt(pow(rw.getSize().x,2)+pow(rw.getSize().y,2));
+    
+}
+
+void sensor::draw(RenderWindow &rw, bool isVisible, vector2d offset){
     if(isVisible){
         line[0].color = Color::Green;
         line[0].position = Vector2f(E.x+offset.x,E.y+offset.y);

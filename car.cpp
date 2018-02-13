@@ -48,19 +48,10 @@ void car::operator =(const car &copy){
     this->w = copy.w;
 }
 
-void car::update(RenderWindow &rw, bool isVisible, vector2d offset){
-    this->rotation += rotspeed*speed;
-    
-    this->pos.x += sin(rotation)*speed;
-    this->pos.y += cos(rotation)*speed;
-    
-    for(uint i = 0;i < getLength();i++){
-        this->s[i].setPosition(pos);
-        this->s[i].setRotation(rotation-s[i].m_rotation);
-        this->s[i].update(rw,*w,isVisible,offset);
-    }
-    
+void car::draw(RenderWindow &rw, bool isVisible, vector2d offset){
     if(isVisible){
+        for(uint i = 0;i < length;i++)
+            s[i].draw(rw,isVisible,offset);
         c.setFillColor(Color::Red);
         c.setPointCount(4);
         vector2d A = (this->size*0.5).rotate(this->rotation)+this->pos;
@@ -73,6 +64,19 @@ void car::update(RenderWindow &rw, bool isVisible, vector2d offset){
         c.setPoint(3,Vector2f(D.x,D.y));
         c.setPosition(pos.x,pos.y);
         rw.draw(c);
+    }
+}
+
+void car::update(RenderWindow &rw){
+    this->rotation += rotspeed*speed;
+    
+    this->pos.x += sin(rotation)*speed;
+    this->pos.y += cos(rotation)*speed;
+    
+    for(uint i = 0;i < getLength();i++){
+        this->s[i].setPosition(pos);
+        this->s[i].setRotation(rotation-s[i].m_rotation);
+        this->s[i].update(rw,*w);
     }
 }
 

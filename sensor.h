@@ -17,7 +17,8 @@ public:
     sensor(vector2d pos,double m_rotation);
     void setPosition(const vector2d &pos);
     void setRotation(double rotation);
-    void update(RenderWindow &rw, world &w, bool isVisible, vector2d offset);
+    void update(RenderWindow &rw, world &w);
+    void draw(RenderWindow &rw, bool isVisible, vector2d offset);
     double getDistance();
     void operator =(const sensor &copy);
 };
