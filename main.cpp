@@ -13,7 +13,7 @@ void draw_network(const Network &n, RenderWindow &rw);
 int main(int argc, char *argv[]){
     bool isVisible = true;
     double max_score = 0;
-    double randomness = 0.3,shift = 0.1;
+    double randomness = 0.3,shift = 0.1,percentage = 1;
     string saveto = "test.snn";
     string loadfrom = "test.snn";
     string config = "config.txt";
@@ -22,6 +22,7 @@ int main(int argc, char *argv[]){
     uint population = 10;
     double rotation = 1.5;
     double max_rotation = 0.02;
+    double swap_percentage = 0.3;
     //set max generation
     int maxgen = -1;
     if(argc <= 1){
@@ -40,6 +41,7 @@ int main(int argc, char *argv[]){
     ifstream con;
     con.open(config.c_str());
     if(con.is_open()){
+        //load
         con >> loadfrom;
         con >> saveto;
         con >> worldfile;
@@ -47,9 +49,22 @@ int main(int argc, char *argv[]){
         con >> population;
         con >> randomness;
         con >> shift;
+        con >> percentage;
+        con >> swap_percentage;
         con >> rotation;
         con >> max_rotation;
-        cout << randomness << "|" << shift << endl;
+        //test print
+        cout << loadfrom << endl;
+        cout << saveto << endl;
+        cout << worldfile << endl;
+        cout << logfile << endl;
+        cout << population << endl;
+        cout << randomness << endl;
+        cout << shift << endl;
+        cout << percentage << endl;
+        cout << swap_percentage << endl;
+        cout << rotation << endl;
+        cout << max_rotation << endl;
     }
     con.close();
     
@@ -102,9 +117,9 @@ int main(int argc, char *argv[]){
         }
         bool crash = true;
         for(uint i = 0;i < tr.size();i++){
-            if(!agents[i].isColliding())
+            if(!agents[i].isColliding() && isAlive[i])
                 crash = false;
-            isAlive[i] = !agents[i].isColliding();
+            isAlive[i] = !agents[i].isColliding() && isAlive[i];
         }
         if(fTC > 1000)
             for(uint i = 0;i < tr.size();i++)
@@ -127,7 +142,7 @@ int main(int argc, char *argv[]){
             log.close();
             tr[tr.best()].SavetoFile(saveto);
             
-            tr.update(randomness,shift);//10/max_score);
+            tr.update(randomness,shift,percentage,swap_percentage);//10/max_score);
             for(uint i = 0;i < tr.size();i++){
                 agents[i] = c;
                 isAlive[i] = true;
