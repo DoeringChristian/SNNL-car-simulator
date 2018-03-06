@@ -16,11 +16,10 @@ class car{
     bool isAlive;
     sensor *s;
     uint length;
-    double max_angle;
 public:
     double rotspeed;
     car();
-    car(world &w, vector2d pos, uint sensors, double max_angle = 0.01, double rotation = 1.5);
+    car(world &w, vector2d pos, uint sensors, double rotation = 1.5);
     ~car();
     void operator =(const car &copy);
     void update(RenderWindow &rw);
