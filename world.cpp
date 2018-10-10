@@ -132,6 +132,17 @@ bool world::LoadFile(string file){
     return true;
 }
 
+void world::reset(){
+    if(start != 0){
+        pnode *n = start;
+        while(n != end){
+            n = n->next;
+            delete n->befor;
+        }
+        delete n;
+    }
+}
+
 
 
 

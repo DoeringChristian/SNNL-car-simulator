@@ -25,6 +25,7 @@ public:
     
     void update(RenderWindow &rw,bool isVisible,vector2d offset);
     bool LoadFile(string file);
+    void reset();
 };
 
 #endif // WORLD_H

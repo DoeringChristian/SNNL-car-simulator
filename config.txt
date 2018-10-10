@@ -2,7 +2,7 @@ test.snn
 
 test.snn
 
-world.sim
+welten/2.Welt
 
 log.txt
 
